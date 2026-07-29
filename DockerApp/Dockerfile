@@ -11,8 +11,10 @@ WORKDIR /app
 # Destination (inside container): /app/app.jar
 COPY target/DockerApp-0.0.1-SNAPSHOT.jar app.jar
 
-# Inform Docker that this application listens on port 8080.
-# (Documentation only; it doesn't actually publish the port.)
+#EXPOSE tells Docker which port the application inside the container listens on.
+#It does NOT publish the port to your host machine.
+#(Just tells others: "Application listens here")
+#"This image expects the application to listen on port 8080."
 EXPOSE 8080
 
 # Command executed when the container starts.
