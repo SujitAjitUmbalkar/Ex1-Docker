@@ -1,0 +1,53 @@
+version: "3.9"
+
+services:
+
+  mysql:
+    image: mysql:8.4
+    container_name: mysql-db
+
+    environment:
+      MYSQL_ROOT_PASSWORD: Sujit@123
+      MYSQL_DATABASE: DockerVirtualDB
+
+    ports:
+      - "3307:3306"
+
+    # Use the named volume defined below
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+    # Join the bridge network defined below
+    networks:
+      - spring-network
+
+  springboot:
+    build: .
+    container_name: spring-app
+
+    ports:
+      - "8080:8080"
+
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+
+    depends_on:
+      - mysql
+
+    # Join the same bridge network
+    networks:
+      - spring-network
+
+
+# ------------------------------
+# Define/Create Docker resources
+# ------------------------------
+# Above (inside services) → USE the volume/network
+# Below → CREATE/DEFINE the volume/network
+
+volumes:
+  mysql-data:
+
+networks:
+  spring-network:
+
