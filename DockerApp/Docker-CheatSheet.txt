@@ -144,3 +144,227 @@ docker ps -a
 
 Purpose:
 - Displays all containers (running and stopped).
+
+----------------------
+
+```
+================================================================================================
+                DOCKER VOLUME COMMANDS
+================================================================================================
+
+----------------------------------------
+1. List All Docker Volumes
+----------------------------------------
+
+docker volume ls
+
+Purpose:
+- Shows all Docker volumes.
+- Displays named and anonymous volumes.
+
+----------------------------------------
+2. Create a Named Volume
+----------------------------------------
+
+docker volume create my-volume
+
+Purpose:
+- Creates a Docker-managed volume.
+- Can be reused by multiple containers.
+
+----------------------------------------
+3. Inspect a Volume
+----------------------------------------
+
+docker volume inspect my-volume
+
+Purpose:
+- Shows volume details.
+- Mount location
+- Driver
+- Labels
+- Metadata
+
+----------------------------------------
+4. Delete a Specific Volume
+----------------------------------------
+
+docker volume rm my-volume
+
+Purpose:
+- Removes the specified volume.
+
+----------------------------------------
+5. Delete All Unused Volumes
+----------------------------------------
+
+docker volume prune
+
+Purpose:
+- Deletes all unused (dangling) volumes.
+
+----------------------------------------
+6. Run Container Using Named Volume
+----------------------------------------
+
+docker run -d \
+--name mysql \
+-v mysql-data:/var/lib/mysql \
+mysql
+
+Purpose:
+- Creates (if needed) and mounts a Docker-managed volume.
+- Stores MySQL database files persistently.
+
+Syntax:
+
+-v <volume-name>:<container-path>
+
+Example:
+
+-v mysql-data:/var/lib/mysql
+
+----------------------------------------
+7. Run Container Using Bind Mount
+(Host Volume)
+----------------------------------------
+
+Windows
+
+docker run -d \
+--name spring-app \
+-v C:\Docker\Data:/app/data \
+my-app
+
+Linux
+
+docker run -d \
+--name spring-app \
+-v /home/user/data:/app/data \
+my-app
+
+Purpose:
+- Maps a folder from the host machine into the container.
+- Changes on the host are immediately visible inside the container.
+
+Syntax:
+
+-v <host-path>:<container-path>
+
+----------------------------------------
+8. Enter Running Container
+----------------------------------------
+
+docker exec -it spring-app sh
+
+Purpose:
+- Opens an interactive shell inside the container.
+
+----------------------------------------
+9. Verify Mounted Files
+----------------------------------------
+
+ls /app/data
+
+Purpose:
+- Lists files inside the mounted directory.
+- Verifies that the volume/bind mount is working.
+
+----------------------------------------
+10. Check Current User
+----------------------------------------
+
+whoami
+
+Purpose:
+- Shows the Linux user running inside the container.
+
+----------------------------------------
+11. Check Container IP
+----------------------------------------
+
+hostname -i
+
+Purpose:
+- Displays the private IP address assigned to the container.
+
+----------------------------------------
+12. Stop Container
+----------------------------------------
+
+docker stop spring-app
+
+Purpose:
+- Stops the running container.
+- Volume data remains safe.
+
+----------------------------------------
+13. Start Existing Container
+----------------------------------------
+
+docker start spring-app
+
+Purpose:
+- Starts a stopped container.
+- Reuses the same mounted volume.
+
+----------------------------------------
+14. Remove Container
+----------------------------------------
+
+docker rm spring-app
+
+Purpose:
+- Deletes the container only.
+- Named volumes are NOT deleted.
+
+----------------------------------------
+15. Remove Container and Anonymous Volumes
+----------------------------------------
+
+docker rm -v spring-app
+
+Purpose:
+- Removes the container.
+- Deletes anonymous volumes attached to it.
+- Named volumes are NOT removed.
+
+----------------------------------------
+16. List Running Containers
+----------------------------------------
+
+docker ps
+
+Purpose:
+- Shows currently running containers.
+
+----------------------------------------
+17. List All Containers
+----------------------------------------
+
+docker ps -a
+
+Purpose:
+- Shows all containers (running and stopped).
+```
+
+### Quick Memory
+
+```
+docker volume ls               -> List volumes
+docker volume create           -> Create named volume
+docker volume inspect          -> View volume details
+docker volume rm               -> Remove volume
+docker volume prune            -> Remove unused volumes
+
+docker run -v volume:path      -> Named Volume
+docker run -v host:path        -> Bind Mount
+
+docker exec -it <container> sh -> Enter container
+ls <path>                      -> Verify mounted files
+
+docker stop                    -> Stop container
+docker start                   -> Start container
+docker rm                      -> Remove container (volume remains)
+docker rm -v                   -> Remove container + anonymous volumes
+```
