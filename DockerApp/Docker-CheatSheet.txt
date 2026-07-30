@@ -1,0 +1,146 @@
+===========================
+DOCKER BRIDGE COMMANDS
+===========================
+
+----------------------------------------
+1. List All Networks
+----------------------------------------
+
+docker network ls
+
+Purpose:
+- Shows all Docker networks.
+- (bridge, host, none, custom)
+
+----------------------------------------
+2. Inspect Bridge Network
+----------------------------------------
+
+docker network inspect bridge
+
+Purpose:
+- Shows subnet, gateway, connected containers, IPs.
+
+----------------------------------------
+3. Create Custom Bridge Network
+----------------------------------------
+
+docker network create my-network
+
+Purpose:
+- Creates a custom bridge network.
+
+----------------------------------------
+4. Remove Custom Bridge Network
+----------------------------------------
+
+docker network rm my-network
+
+Purpose:
+- Deletes the specified network.
+
+----------------------------------------
+5. Run Container on Bridge Network
+----------------------------------------
+
+docker run -d \
+--name spring-app \
+--network my-network \
+my-app
+
+Purpose:
+- Starts a container connected to the specified bridge.
+
+----------------------------------------
+6. Run Another Container on Same Bridge
+----------------------------------------
+
+docker run -d \
+--name mysql-db \
+--network my-network \
+mysql
+
+Purpose:
+- Connects another container to the same bridge.
+
+----------------------------------------
+7. Connect Existing Container
+----------------------------------------
+
+docker network connect my-network spring-app
+
+Purpose:
+- Connects a running container to a network.
+
+----------------------------------------
+8. Disconnect Container
+----------------------------------------
+
+docker network disconnect my-network spring-app
+
+Purpose:
+- Removes a container from the network.
+
+----------------------------------------
+9. Enter Container
+----------------------------------------
+
+docker exec -it spring-app sh
+
+Purpose:
+- Opens terminal inside the running container.
+
+----------------------------------------
+10. Check Container IP
+----------------------------------------
+
+hostname -i
+
+Purpose:
+- Displays the container's private IP address.
+
+----------------------------------------
+11. Ping Another Container (Recommended)
+----------------------------------------
+
+ping mysql-db
+
+Purpose:
+- Checks communication using the container name.
+- Docker DNS resolves the name to its IP.
+
+----------------------------------------
+12. Ping Container Using IP
+----------------------------------------
+
+ping 172.18.0.3
+
+Purpose:
+- Checks communication using the container's IP.
+
+----------------------------------------
+13. Ping Internet
+----------------------------------------
+
+ping google.com
+
+Purpose:
+- Verifies internet access through the Docker Host.
+
+----------------------------------------
+14. Show Running Containers
+----------------------------------------
+
+docker ps
+
+Purpose:
+- Displays running containers.
+
+----------------------------------------
+15. Show All Containers
+----------------------------------------
+
+docker ps -a
+
+Purpose:
+- Displays all containers (running and stopped).
