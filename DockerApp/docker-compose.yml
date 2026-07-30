@@ -1,7 +1,8 @@
-version: "3.9"
-
 services:
 
+  # ==========================
+  # MySQL Database
+  # ==========================
   mysql:
     image: mysql:8.4
     container_name: mysql-db
@@ -10,21 +11,45 @@ services:
       MYSQL_ROOT_PASSWORD: Sujit@123
       MYSQL_DATABASE: DockerVirtualDB
 
+    # Only expose if Host needs MySQL
+    # (Workbench, IntelliJ DB, etc.)
     ports:
       - "3307:3306"
 
-    # Use the named volume defined below
     volumes:
       - mysql-data:/var/lib/mysql
 
-    # Join the bridge network defined below
     networks:
       - spring-network
 
+
+  # ==========================
+  # Redis Server
+  # ==========================
+  redis:      # redis automatically , bydefault runs on 6379 ,
+    image: redis:7
+    container_name: redis-db
+
+    # Only expose if Host needs Redis
+    # (RedisInsight, redis-cli, etc.)
+    # ports:
+    #   - "6379:6379"
+
+    volumes:
+      - redis-data:/data
+
+    networks:
+      - spring-network
+
+
+  # ==========================
+  # Spring Boot Application
+  # ==========================
   springboot:
     build: .
     container_name: spring-app
 
+    # Browser accesses Spring Boot
     ports:
       - "8080:8080"
 
@@ -33,21 +58,24 @@ services:
 
     depends_on:
       - mysql
+      - redis
 
-    # Join the same bridge network
     networks:
       - spring-network
 
 
-# ------------------------------
-# Define/Create Docker resources
-# ------------------------------
-# Above (inside services) → USE the volume/network
-# Below → CREATE/DEFINE the volume/network
-
+# -----------------------------
+# CREATE Docker Named Volumes
+# Services above USE them.
+# -----------------------------
 volumes:
   mysql-data:
+  redis-data:
 
+
+# -----------------------------
+# CREATE Docker Bridge Network
+# Services above JOIN it.
+# -----------------------------
 networks:
   spring-network:
-
